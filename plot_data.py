@@ -18,19 +18,3 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 plt.close()
-
-# make dataframe
-df = pd.DataFrame(data)
-
-max_period = df['t_days'].max()
-
-N = len(df)
-v_centered = df['v_ms'] - df['v_ms'].mean()
-d = (v_centered).to_numpy()
-t = (df['t_days']).to_numpy()
-
-T = max_period
-df = 1.0 / (4.0 * T)
-f_min = 1.0 / (2.0 * T)
-f_max = 1.0 / 4.0
-min_period = 1.0 / f_max
