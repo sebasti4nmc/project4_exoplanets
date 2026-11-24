@@ -1,0 +1,36 @@
+import os
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+data = pd.read_csv('mystery_system.csv')
+data.columns = data.columns.str.strip().str.lstrip('#').str.strip()
+print(data.head())
+uncertainty = data['sigma_ms']
+
+plt.figure(figsize=(8, 4.5))
+#plt.plot(data['t_days'], data['v_ms'], marker='o', linestyle='-', markersize=4)
+plt.errorbar(data['t_days'], data['v_ms'], yerr=uncertainty, fmt='o', markersize=4)
+plt.xlabel('Time [days]')
+plt.ylabel('Stellar radial velocity [m/s]')
+plt.title('Radial velocity of target star')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+plt.close()
+
+# make dataframe
+df = pd.DataFrame(data)
+
+max_period = df['t_days'].max()
+
+N = len(df)
+v_centered = df['v_ms'] - df['v_ms'].mean()
+d = (v_centered).to_numpy()
+t = (df['t_days']).to_numpy()
+
+T = max_period
+df = 1.0 / (4.0 * T)
+f_min = 1.0 / (2.0 * T)
+f_max = 1.0 / 4.0
+min_period = 1.0 / f_max
